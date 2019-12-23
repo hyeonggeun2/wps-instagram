@@ -350,4 +350,7 @@ $RECYCLE.BIN/
 
 
 # self
-python-shell.ipynb
+# 노트북파일
+*.ipynb
+# 루트폴더의 media
+/.media

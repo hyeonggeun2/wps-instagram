@@ -15,6 +15,9 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+ROOT = os.path.dirname(BASE_DIR)
+
+MEDIA_ROOT = os.path.join(ROOT, '.media')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -26,6 +29,8 @@ SECRET_KEY = 'x@!*rjk9d$hxxk61#-^3pprc4qp&$hdc&o3vqq6i(bctbany20'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+# 유저 모델? 추가
+AUTH_USER_MODEL = 'members.User'
 
 
 # Application definition
@@ -37,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'members.apps.MembersConfig',
+    'posts.apps.PostsConfig',
 ]
 
 MIDDLEWARE = [
