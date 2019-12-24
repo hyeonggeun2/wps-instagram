@@ -13,6 +13,9 @@ class Post(models.Model):
     like_users = models.ManyToManyField(User, through='PostLike', symmetrical=False, related_name='like_post_set')
     created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'글쓴이: {self.author}, 내용: {self.content}, 좋아요: {self.like_users}, 작성일: {self.created}'
+
 
 class PostImage(models.Model):
     """
