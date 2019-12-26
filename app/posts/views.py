@@ -7,6 +7,6 @@ def post_list(request):
     context = {
         'posts': posts,
     }
-    return render(request, 'post/post_list.html', context)
+    return render(request, 'posts/post_list.html', context)
 
 
