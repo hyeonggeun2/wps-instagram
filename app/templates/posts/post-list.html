@@ -1,0 +1,29 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<h1>POST LIST</h1>
+{% for post in posts %}
+<div>{{ post.author }}</div>
+<div>{{ post.created }}</div>
+
+<form action="{% url 'posts:post-like' pk=post.pk %}" method="POST">
+    {% csrf_token %}
+
+    <!-- 같은조건1 유저가 좋아하는 포스트들을 확인 -->
+    {% if post in user.like_post_set.all %}
+    <div>좋아요 눌린 상태</div>
+    <button type="submit">좋아요 취소</button>
+    {% else %}
+    <div>좋아요 안 눌린 상태</div>
+    <button type="submit">좋아요</button>
+    {% endif %}
+</form>
+
+<!-- 같은조건2 포스트를 좋아요한 유저들을 확인 -->
+{% for user in post.like_users.all %}
+<div>{{ user }}</div>
+{% endfor %}
+<hr>
+
+{% endfor %}
+{% endblock %}

@@ -1,6 +1,8 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from config import settings
 from config.views import index
 
 urlpatterns = [
@@ -9,3 +11,8 @@ urlpatterns = [
   path('posts/', include('posts.urls')),
   path('', index, name='index')
 ]
+
+urlpatterns += static(
+  prefix=settings.MEDIA_URL,
+  document_root=settings.MEDIA_ROOT
+)

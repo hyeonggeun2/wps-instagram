@@ -10,7 +10,7 @@ def login_view(request):
 
         if user:
             login(request, user)
-            return
+            return redirect('posts:post-list')
         else:
             return redirect('members:login')
     else:
