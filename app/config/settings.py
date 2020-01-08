@@ -32,7 +32,11 @@ SECRET_KEY = 'x@!*rjk9d$hxxk61#-^3pprc4qp&$hdc&o3vqq6i(bctbany20'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    # 기본적인 주소 외에 접근을 허용할 주소를 설정할 수 있음
+]
 # 유저 모델? 추가
 AUTH_USER_MODEL = 'members.User'
 

@@ -1,0 +1,10 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<!-- enctype="multipart/form-data" 는 파일을 보낼때 꼭 사용하여야 함 -->
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">작성</button>
+</form>
+{% endblock %}
