@@ -11,30 +11,35 @@
 <div>작성자: {{ post.author }}</div>
 <div>작성일시: {{ post.created }}</div>
 <div>내용: {{ post.content }}</div>
-<div>
     {% for post_image in post.postimage_set.all %}
     <img src="{{ post_image.image.url }}" alt="">
     {% endfor %}
-</div>
 
 <form action="{% url 'posts:post-like' pk=post.pk %}" method="POST">
     {% csrf_token %}
 
     <!-- 같은조건1 유저가 좋아하는 포스트들을 확인 -->
     {% if post in user.like_post_set.all %}
-    <div>좋아요 눌린 상태</div>
     <button class="btn btn-primary" type="submit">좋아요 취소</button>
     {% else %}
-    <div>좋아요 안 눌린 상태</div>
     <button class="btn btn-outline-primary" type="submit">좋아요</button>
     {% endif %}
 </form>
 
 <!-- 같은조건2 포스트를 좋아요한 유저들을 확인 -->
 {% for user in post.like_users.all %}
-<div>{{ user }}</div>
+<span>{{ user }}</span>
 {% endfor %}
+<form action="{% url 'posts:post-comment' post_pk=post.pk %}" method="POST">
+    {% csrf_token %}
+    {{ comment_form }}
+    <button type="submit">작성</button>
+</form>
+<ul>
+    {% for comment in post.postcomment_set.all %}
+    <li><b>{{ comment.author }}</b> <span>{{ comment.content }}</span></li>
+    {% endfor %}
+</ul>
 <hr>
-
 {% endfor %}
 {% endblock %}

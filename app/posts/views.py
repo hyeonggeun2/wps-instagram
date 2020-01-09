@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 
-from .forms import PostCreateForm
-from .models import Post, PostLike, PostImage
+from .forms import PostCreateForm, CommentCreateForm
+from .models import Post, PostLike
 
 
 def post_list(request):
+    comment_form = CommentCreateForm()
     posts = Post.objects.order_by('-pk')
     context = {
         'posts': posts,
+        'comment_form': comment_form
     }
     return render(request, 'posts/post-list.html', context)
 
@@ -35,9 +37,6 @@ def post_create(request):
         for image in images:
             post.postimage_set.create(image=image)
 
-
-
-
         return redirect('posts:post-list')
 
     else:
@@ -47,3 +46,13 @@ def post_create(request):
             'form': form
         }
         return render(request, 'posts/post-create.html', context)
+
+
+def comment_create(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+
+    form = CommentCreateForm(data=request.POST)
+    if form.is_valid():
+        form.save(post=post, author=request.user)
+
+    return redirect('posts:post-list')
