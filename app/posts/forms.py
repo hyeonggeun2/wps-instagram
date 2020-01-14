@@ -11,7 +11,13 @@ class PostCreateForm(forms.Form):
             }
         )
     )
-    text = forms.CharField()
+    text = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control',
+            }
+        )
+    )
 
     def save(self, request):
         images = request.FILES.getlist('images')
