@@ -17,35 +17,28 @@ def post_list(request):
 def post_like(request, pk):
     post = Post.objects.get(pk=pk)
     user = request.user
-    post_like_qs = PostLike.objects.filter(post=post, user=user)
+    post_like_qs = post.postlike_set.filter(user=user)
 
-    if post_like_qs.exists():
+    if post_like_qs:
         post_like_qs.delete()
     else:
-        PostLike.objects.create(post=post, user=user)
+        post.postlike_set.create(user=user)
 
     return redirect('posts:post-list')
 
 
 def post_create(request):
     if request.method == 'POST':
-        content = request.POST['text']
-        images = request.FILES.getlist('images')
-
-        post = Post.objects.create(author=request.user, content=content)
-
-        for image in images:
-            post.postimage_set.create(image=image)
-
+        form = PostCreateForm(request.POST)
+        form.save(request)
         return redirect('posts:post-list')
 
     else:
         form = PostCreateForm()
-
-        context = {
-            'form': form
-        }
-        return render(request, 'posts/post-create.html', context)
+    context = {
+        'form': form
+    }
+    return render(request, 'posts/post-create.html', context)
 
 
 def comment_create(request, post_pk):

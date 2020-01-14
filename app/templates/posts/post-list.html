@@ -1,6 +1,7 @@
 {% extends '../base.html' %}
 
 {% block content %}
+{{ user }}
 <h1>POST LIST</h1>
 <div>user: {{ request.user }}</div>
 {% if request.user.is_authenticated %}

@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib.auth import get_user_model, logout, login
 from django.shortcuts import render, redirect
 
 # 유저모델을 알아서 찾아서 가져옴(기본 or 커스텀)
@@ -8,42 +8,43 @@ User = get_user_model()
 
 
 def login_view(request):
+    form = LoginForm()
+
     if request.user.is_authenticated:
         return redirect('posts:post-list')
+
     elif request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
-        if user:
-            login(request, user)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            form.login(request)
             return redirect('posts:post-list')
-        else:
-            return redirect('members:login')
-
     else:
         form = LoginForm()
-        context = {
-            'form': form
-        }
 
-        return render(request, 'members/login.html', context)
+    context = {
+        'form': form
+    }
 
-
+    return render(request, 'members/login.html', context)
 
 
 def signup_view(request):
-    signup_form = SignupForm(data=request.POST)
+    if request.method == 'POST':
+        signup_form = SignupForm(data=request.POST)
 
-    email = request.POST['email']
-    username = request.POST['username']
-    name = request.POST['name']
-    password = request.POST['password']
+        if signup_form.is_valid():
+            user = signup_form.signup()
+            login(request, user)
+            return redirect('posts:post-list')
 
-    if signup_form.is_valid():
-        new_user = signup_form.save(email=email, username=username, name=name, password=password)
-        login(request, new_user)
-        return redirect('posts:post-list')
+    else:
+        signup_form = SignupForm()
+
+    context = {
+        'signup_form': signup_form
+    }
+
+    return render(request, 'members/signup.html', context)
 
 
 def logout_view(request):

@@ -10,12 +10,22 @@
     <div class="mr-auto ml-auto mt-3 col-lg-4 col-md-6 col-sm-8 col-10">
         <div class="top-box card text-center p-4">
             <h1>Instagram</h1>
-            <form method="POST" action="">
+            <form method="POST" action=""ㅐㅐ>
                 {% csrf_token %}
                 {% for field in form %}
-                    {{ field }}
+                <div class="form-group">{{ field }}</div>
                 {% endfor %}
+
+
+                {% if form.non_field_errors %}
+                <ul class="list-unstyled text-danger">
+                    {% for error in form.non_field_errors %}
+                    <li>{{ error|escape }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 <button class="btn btn-primary btn-sm btn-block" type="submit">로그인</button>
+
             </form>
             <hr>
             <button class="btn btn-block btn-outline-primary mb-3">Facebook으로 로그인</button>
@@ -23,7 +33,7 @@
         </div>
         <div class="top-box card text-center p-4 mt-3">
             <span>계정이 없으신가요?</span>
-            <a href="{% url 'index' %}">가입하기</a>
+            <a href="{% url 'signup' %}">가입하기</a>
         </div>
     </div>
 </div>

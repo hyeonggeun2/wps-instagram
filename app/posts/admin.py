@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from posts.models import Post, PostImage, PostComment, PostLike
+from posts.models import Post, PostImage, PostComment, PostLike, Tag
 
 
 class PostImageInline(admin.TabularInline):
@@ -22,6 +22,8 @@ class PostAdmin(admin.ModelAdmin):
         PostImageInline,
         PostCommentInline,
     ]
+    # 튜플이기 때문에 무조건 ,이 와야 함
+    readonly_fields = ('tags',)
 
 
 @admin.register(PostImage)
@@ -36,4 +38,9 @@ class PostCommentAdmin(admin.ModelAdmin):
 
 @admin.register(PostLike)
 class PostLikeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
     pass
