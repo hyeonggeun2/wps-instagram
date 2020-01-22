@@ -4,9 +4,13 @@ from .forms import PostCreateForm, CommentCreateForm
 from .models import Post, PostLike
 
 
-def post_list(request):
+def post_list(request, tag=None):
+    if tag is None:
+        posts = Post.objects.order_by('-pk')
+    else:
+        posts = Post.objects.filter(tags__name__iexact=tag).order_by('-pk')
+
     comment_form = CommentCreateForm()
-    posts = Post.objects.order_by('-pk')
     context = {
         'posts': posts,
         'comment_form': comment_form
@@ -29,8 +33,10 @@ def post_like(request, pk):
 
 def post_create(request):
     if request.method == 'POST':
-        form = PostCreateForm(request.POST)
-        form.save(request)
+        form = PostCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save(request.user)
+        # print(form.errors)
         return redirect('posts:post-list')
 
     else:

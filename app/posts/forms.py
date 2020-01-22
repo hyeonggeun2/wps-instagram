@@ -1,3 +1,5 @@
+from time import timezone
+
 from django import forms
 
 from posts.models import Post
@@ -19,11 +21,11 @@ class PostCreateForm(forms.Form):
         )
     )
 
-    def save(self, request):
-        images = request.FILES.getlist('images')
-        text = request.POST['text']
+    def save(self, author):
+        images = self.files.getlist('images')
+        text = self.cleaned_data['text']
 
-        post = Post.objects.create(author=request.user, content=text)
+        post = Post.objects.create(author=author, content=text)
 
         for image in images:
             post.postimage_set.create(image=image)
@@ -34,3 +36,5 @@ class CommentCreateForm(forms.Form):
 
     def save(self, post, author):
         return post.postcomment_set.create(author=author, content=self.cleaned_data['comment'])
+
+timezone

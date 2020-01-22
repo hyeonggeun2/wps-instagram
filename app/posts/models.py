@@ -10,13 +10,13 @@ class Post(models.Model):
     """
     인스타그램의 포스트
     """
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_set')
     content = models.TextField(blank=True)
     # PostLike 를 통한 Many-to-many 구현
     content_html = models.TextField(blank=True)
     like_users = models.ManyToManyField(User, through='PostLike', symmetrical=False, related_name='like_post_set')
     created = models.DateTimeField(auto_now_add=True)
-    tags = models.ManyToManyField('Tag', verbose_name='해시태그 목록', related_name='posts', blank=True)
+    tags = models.ManyToManyField('Tag', verbose_name='해시태그 목록', related_name='post_set', blank=True)
 
     def _save_html(self):
         self.content_html = re.sub(
@@ -37,8 +37,6 @@ class Post(models.Model):
         self._save_html()
         super().save(*args, **kwargs)
         self._save_tags()
-
-
 
 
 class PostImage(models.Model):

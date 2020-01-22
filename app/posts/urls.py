@@ -8,5 +8,5 @@ urlpatterns = [
     path('', post_list, name='post-list'),
     path('<int:pk>/like/', post_like, name='post-like'),
     path('create/', post_create, name='post-create'),
-    path('<int:post_pk>/comments/create/', comment_create, name='post-comment')
+    path('<int:post_pk>/comments/create/', comment_create, name='post-comment'),
 ]

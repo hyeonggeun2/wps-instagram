@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,12 +23,27 @@ MEDIA_ROOT = os.path.join(ROOT, '.media')
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+JSON_FILE = os.path.join(ROOT, 'secrets.json')
+
+# json 파일 불러오기
+with open(JSON_FILE) as data_file:
+    json_data = json.load(data_file)
+
+
+# django-storages
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = json_data['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = json_data['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = 'wps-instagram-db3'
+AWS_AUTO_CREATE_BUCKET = True
+AWS_DEFAULT_ACL = 'private'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x@!*rjk9d$hxxk61#-^3pprc4qp&$hdc&o3vqq6i(bctbany20'
+SECRET_KEY = json_data['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -35,6 +51,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '52.78.47.78',
     # 기본적인 주소 외에 접근을 허용할 주소를 설정할 수 있음
 ]
 # 유저 모델? 추가
@@ -91,8 +108,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'instagram',
+        'USER': json_data['PSQL_USER'],
+        'PASSWORD': json_data['PSQL_PASSWORD'],
+        'HOST': 'wps-instagram-db.c2xnwrnlzxkz.ap-northeast-2.rds.amazonaws.com',
+        'PORT': 5432,
     }
 }
 

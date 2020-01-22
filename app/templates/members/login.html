@@ -10,7 +10,7 @@
     <div class="mr-auto ml-auto mt-3 col-lg-4 col-md-6 col-sm-8 col-10">
         <div class="top-box card text-center p-4">
             <h1>Instagram</h1>
-            <form method="POST" action=""ㅐㅐ>
+            <form method="POST" action="">
                 {% csrf_token %}
                 {% for field in form %}
                 <div class="form-group">{{ field }}</div>
@@ -28,7 +28,7 @@
 
             </form>
             <hr>
-            <button class="btn btn-block btn-outline-primary mb-3">Facebook으로 로그인</button>
+            <a href="{{ login_url }}" class="btn btn-block btn-outline-primary mb-3">Facebook으로 로그인</a>
             <a href="">비밀번호를 잊으셨나요?</a>
         </div>
         <div class="top-box card text-center p-4 mt-3">
