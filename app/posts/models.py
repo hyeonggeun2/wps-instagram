@@ -18,6 +18,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField('Tag', verbose_name='해시태그 목록', related_name='post_set', blank=True)
 
+    # _를 붙여서 group이 사용할 수 있도록 명시해 둠
     def _save_html(self):
         self.content_html = re.sub(
             self.TAG_PATTERN,

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "instagram"
+version = "0.1.0"
+description = ""
+authors = ["hyeonggeun2 <dhgudrms12@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+django = "<3.0"
+boto3 = "^1.11.9"
+django-extensions = "^2.2.6"
+django-storages = "^1.8"
+pillow = "^7.0.0"
+psycopg2-binary = "^2.8.4"
+requests = "^2.22.0"
+
+[tool.poetry.dev-dependencies]
+notebook = "^6.0.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

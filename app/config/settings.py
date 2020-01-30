@@ -26,14 +26,18 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 JSON_FILE = os.path.join(ROOT, 'secrets.json')
 
 # json 파일 불러오기
-with open(JSON_FILE) as data_file:
-    json_data = json.load(data_file)
+json_data = json.load(open(JSON_FILE))
 
+# with open(JSON_FILE) as data_file:
+#     json_data = json.load(data_file)
 
 # django-storages
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# IAM 에서 가져온 키와 아이디를 적음
+# S3Full~을 설정해줬으니까 접근할 수 있는 것.
 AWS_ACCESS_KEY_ID = json_data['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = json_data['AWS_SECRET_ACCESS_KEY']
+
 AWS_STORAGE_BUCKET_NAME = 'wps-instagram-db3'
 AWS_AUTO_CREATE_BUCKET = True
 AWS_DEFAULT_ACL = 'private'
@@ -50,8 +54,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
+    '13.125.217.45',
     '127.0.0.1',
-    '52.78.47.78',
+    '*',
     # 기본적인 주소 외에 접근을 허용할 주소를 설정할 수 있음
 ]
 # 유저 모델? 추가
