@@ -354,3 +354,4 @@ $RECYCLE.BIN/
 *.ipynb
 # 루트폴더의 media
 /.media
+/requirements.txt
