@@ -10154,7 +10154,7 @@ a.text-dark:hover, a.text-dark:focus {
     text-decoration: underline;
   }
   abbr[title]::after {
-    content: " (" attr(title) ")";
+    content: " (" attr(title) ;
   }
   pre {
     white-space: pre-wrap !important;
