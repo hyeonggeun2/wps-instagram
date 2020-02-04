@@ -1,2 +1,6 @@
 /.git
 /.media
+/secrets.json
+/ec2-docker.py
+/ec2-docker.sh
+/local-docker.py

@@ -10,4 +10,5 @@ RUN         pip install -r /tmp/requirements.txt
 COPY        . /srv/instagram
 WORKDIR     srv/instagram/app
 
+#CMD          /bin/bash
 CMD         python manage.py runserver 0:8000

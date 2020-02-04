@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from os.path import expanduser
+from pathlib import Path
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -26,24 +26,29 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # load secret.json in drop_box
-HOME_DIR = expanduser("~")
+# HOME_DIR = expanduser("~")
+HOME_DIR = str(Path.home())
 DROP_BOX = os.path.join(HOME_DIR, 'Dropbox')
 SECRETS_DIR = os.path.join(DROP_BOX, '.secret_key')
 JSON_FILE = os.path.join(SECRETS_DIR, 'instagram_secrets.json')
+EC2_SECRETS = os.path.join(PROJECT_ROOT, 'instagram_secrets.json')
 
 # json 파일 불러오기
 try:
     SECRET = json.load(open(JSON_FILE))
-except:
-    SECRET = {
-        'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID'),
-        'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY'),
-        'SECRET_KEY': os.environ.get('SECRET_KEY'),
-        'NAVER_CLIENT_ID': os.environ.get('NAVER_CLIENT_ID'),
-        'NAVER_CLIENT_SECRET': os.environ.get('NAVER_CLIENT_SECRET'),
-        'PSQL_USER': os.environ.get('PSQL_USER'),
-        'PSQL_PASSWORD': os.environ.get('PSQL_PASSWORD'),
-    }
+except FileNotFoundError:
+    try:
+        SECRET = json.load(open(EC2_SECRETS))
+    except FileNotFoundError:
+        SECRET = {
+            'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID'),
+            'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY'),
+            'SECRET_KEY': os.environ.get('SECRET_KEY'),
+            'NAVER_CLIENT_ID': os.environ.get('NAVER_CLIENT_ID'),
+            'NAVER_CLIENT_SECRET': os.environ.get('NAVER_CLIENT_SECRET'),
+            'PSQL_USER': os.environ.get('PSQL_USER'),
+            'PSQL_PASSWORD': os.environ.get('PSQL_PASSWORD'),
+        }
 
 # with open(JSON_FILE) as data_file:
 #     json_data = json.load(data_file)
@@ -131,7 +136,7 @@ DATABASES = {
         'NAME': 'instagram',
         'USER': SECRET['PSQL_USER'],
         'PASSWORD': SECRET['PSQL_PASSWORD'],
-        'HOST': 'wps-instagram-db.c2xnwrnlzxkz.ap-northeast-2.rds.amazonaws.com',
+        'HOST': 'hyegg.c2xnwrnlzxkz.ap-northeast-2.rds.amazonaws.com',
         'PORT': 5432,
     }
 }
