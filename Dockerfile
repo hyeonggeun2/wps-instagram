@@ -1,14 +1,21 @@
 FROM        python:3.7-slim
 
-RUN         apt -y update && apt -y dist-upgrade
+RUN         apt -y update && apt -y dist-upgrade && apt -y autoremove
+RUN         apt -y install nginx
 
-# requirement만 먼저 복사해서 실행시킴 (캐시를 사용하기 위해)
-#  -? COPY시 requirement가 안바뀌어도 소스코드가 하나라도 바뀌면 다시 설치하기 때문에
+# poetry export로 생성된 requirements.txt를 적절히 복사
 COPY        ./requirements.txt /tmp/
 RUN         pip install -r /tmp/requirements.txt
 
+# 소스코드 복사
 COPY        . /srv/instagram
-WORKDIR     srv/instagram/app
+WORKDIR     /srv/instagram/app
 
-#CMD          /bin/bash
-CMD         python manage.py runserver 0:8000
+# Nginx설정파일을 복사, 기본 서버 설정 삭제
+RUN         rm /etc/nginx/sites-enabled/default
+RUN         cp /srv/instagram/.config/instagram.nginx /etc/nginx/sites-enabled/
+
+# 로그폴더 생성
+RUN         mkdir /var/log/gunicorn
+
+CMD         /bin/bash

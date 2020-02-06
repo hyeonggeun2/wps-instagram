@@ -24,6 +24,7 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, '.media')
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(PROJECT_ROOT, '.static')
 
 # load secret.json in drop_box
 # HOME_DIR = expanduser("~")
@@ -31,7 +32,7 @@ HOME_DIR = str(Path.home())
 DROP_BOX = os.path.join(HOME_DIR, 'Dropbox')
 SECRETS_DIR = os.path.join(DROP_BOX, '.secret_key')
 JSON_FILE = os.path.join(SECRETS_DIR, 'instagram_secrets.json')
-EC2_SECRETS = os.path.join(PROJECT_ROOT, 'instagram_secrets.json')
+EC2_SECRETS = os.path.join(PROJECT_ROOT, 'secrets.json')
 
 # json 파일 불러오기
 try:

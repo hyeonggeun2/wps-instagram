@@ -18,7 +18,7 @@ psql_password = SECRET['PSQL_PASSWORD']
 DOCKER_OPTIONS = [
     ('--rm', ''),
     ('-it', ''),
-    ('-p', '8001:8000'),
+    ('-p', '8001:80'),
     ('--name', 'instagram'),
     ('--env', f'AWS_ACCESS_KEY_ID="{aws_access_key}"'),
     ('--env', f'AWS_SECRET_ACCESS_KEY="{aws_secret_key}"'),
@@ -31,7 +31,7 @@ DOCKER_OPTIONS = [
 
 subprocess.run('docker build -t hyeonggeun2/wps-instagram -f Dockerfile .', shell=True)
 subprocess.run('docker stop instagram', shell=True)
-subprocess.run('docker run {options} hyeonggeun2/wps-instagram'.format(
+subprocess.run('docker run {options} hyeonggeun2/wps-instagram /bin/bash'.format(
     options=' '.join(
         [f'{key} {value}' for key, value in DOCKER_OPTIONS]
     )
