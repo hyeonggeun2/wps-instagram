@@ -96,6 +96,9 @@ INSTALLED_APPS = [
     'members.apps.MembersConfig',
     'posts.apps.PostsConfig',
     'django_extensions',
+
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

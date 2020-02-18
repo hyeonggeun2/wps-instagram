@@ -4,6 +4,7 @@
 secrets.json
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+/.static
 
 # IPython
 profile_default/

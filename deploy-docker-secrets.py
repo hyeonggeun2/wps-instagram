@@ -15,7 +15,11 @@ DOCKER_OPTIONS = [
     # background로 실행하는 옵션 추가
     ('-d', ''),
     ('-p', '80:80'),
+    ('-p', '443:443'),
     ('--name', 'instagram'),
+
+    # Let`s Encrypt volume
+    ('-v', '/etc/letsencrypt:/etc/letsencrypt'),
 ]
 USER = 'ubuntu'
 HOST = '13.125.249.76'
@@ -73,7 +77,6 @@ def server_cmd():
     ssh_run(f'sudo docker exec instagram python manage.py collectstatic --noinput')
     ssh_run(f'sudo docker exec -it -d instagram '
             f'supervisord -c /srv/instagram/.config/supervisord.conf -n')
-
 
 
 if __name__ == '__main__':
