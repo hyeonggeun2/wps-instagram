@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from .forms import PostCreateForm, CommentCreateForm
+from .forms import Form, CommentCreateForm
 from .models import Post, PostLike
 
 
@@ -33,14 +33,14 @@ def post_like(request, pk):
 
 def post_create(request):
     if request.method == 'POST':
-        form = PostCreateForm(request.POST, request.FILES)
+        form = Form(request.POST, request.FILES)
         if form.is_valid():
             form.save(request.user)
         # print(form.errors)
         return redirect('posts:post-list')
 
     else:
-        form = PostCreateForm()
+        form = Form()
     context = {
         'form': form
     }

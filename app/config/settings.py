@@ -84,6 +84,14 @@ ALLOWED_HOSTS = [
 # 유저 모델? 추가
 AUTH_USER_MODEL = 'members.User'
 
+# DRF
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -99,6 +107,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
